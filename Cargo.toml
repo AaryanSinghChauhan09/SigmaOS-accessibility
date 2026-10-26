@@ -1,20 +1,17 @@
 [package]
-name = "sigmaccess"
+name = "sigmaos-accessibility"
 version = "0.1.0"
 edition = "2021"
-description = "SigmaOS accessibility tools and screen reader support"
-authors = ["SigmaOS Contributors"]
-license = "MIT OR Apache-2.0"
-
-[[bin]]
-name = "sigmaccess"
-path = "src/main.rs"
-
-[lib]
-name = "sigmaccess"
-path = "src/lib.rs"
+authors = ["SigmaOS Project"]
+description = "Accessibility features and support"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/AaryanSinghChauhan09/SigmaOS-accessibility"
+readme = "README.md"
+keywords = ["accessibility", "a11y", "screen-reader"]
+categories = ["accessibility"]
 
 [dependencies]
-log = "0.4"
+sigmaos-kernel = { version = "0.1", path = "../SigmaOS-kernel" }
 
-[dev-dependencies]
+[profile.release]
+opt-level = 3
