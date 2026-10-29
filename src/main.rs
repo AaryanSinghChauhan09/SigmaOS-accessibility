@@ -1,12 +1,12 @@
 //! SigmaOS Accessibility Daemon entry point.
 
 use std::process;
+use sigmaos_accessibility::accessibility::AccessibilityService;
 
 fn main() {
-    env_logger::init();
-    let service = sigmaccess::AccessibilityService::new();
+    let service = AccessibilityService::new();
     if let Err(e) = service.run() {
-        eprintln!("sigmaccess: fatal error: {}", e);
+        eprintln!("sigmaos-accessibility: fatal error: {}", e);
         process::exit(1);
     }
 }

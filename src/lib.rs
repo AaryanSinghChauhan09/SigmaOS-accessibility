@@ -1,7 +1,8 @@
-//! SigmaOS Accessibility
-//! Accessibility features and support
+//! SigmaOS Accessibility — screen reader, magnifier, on-screen keyboard, and assistive framework.
+//!
+//! Principles: Command-Query Separation, Single Responsibility, Encapsulation,
+//! Component Isolation, Arrange-Act-Assert.
 
-pub mod access;
 pub mod accessibility;
 
-pub use accessibility::AccessibilityManager;
+pub use accessibility::*;
