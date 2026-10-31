@@ -20,6 +20,8 @@ pub enum VoiceGender {
 pub enum ScreenReaderError {
     Success = 0,
     NotFound = 1,
+    /// A voice is registered, but this implementation has no speech backend.
+    BackendUnavailable = 2,
 }
 
 pub type AccessibilityError = ScreenReaderError;
@@ -88,6 +90,10 @@ pub trait ScreenReader {
 }
 
 #[repr(C)]
+/// In-memory voice registry and playback-state placeholder.
+///
+/// This type does not synthesize speech. `speak` returns
+/// `BackendUnavailable` until a real audio backend is connected.
 pub struct SimpleScreenReader {
     pub voices: Vec<Option<Box<dyn Voice>>>,
     pub speaking: AtomicUsize,
@@ -107,7 +113,7 @@ impl SimpleScreenReader {
 impl ScreenReader for SimpleScreenReader {
     fn speak(&self, _text: &[u8], voice_id: VoiceID) -> Result<(), ScreenReaderError> {
         if self.get_voice(voice_id).is_some() {
-            Ok(())
+            Err(ScreenReaderError::BackendUnavailable)
         } else {
             Err(ScreenReaderError::NotFound)
         }
@@ -161,6 +167,7 @@ impl SimpleBrailleDisplay {
 
 impl BrailleDisplay for SimpleBrailleDisplay {
     fn refresh(&mut self, cells: &[u8]) {
+        self.cells.fill(0);
         for i in 0..self.cells.len().min(cells.len()) {
             self.cells[i] = cells[i];
         }
@@ -184,7 +191,10 @@ mod tests {
 
         assert!(reader.get_voice(42).is_some());
         assert_eq!(reader.get_voice(42).unwrap().gender(), VoiceGender::Female);
-        assert_eq!(reader.speak(b"Hello", 42), Ok(()));
+        assert_eq!(
+            reader.speak(b"Hello", 42),
+            Err(ScreenReaderError::BackendUnavailable)
+        );
         assert_eq!(
             reader.speak(b"Hello", 999),
             Err(ScreenReaderError::NotFound)
