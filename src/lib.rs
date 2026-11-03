@@ -1,8 +1,12 @@
-//! SigmaOS Accessibility — screen reader, magnifier, on-screen keyboard, and assistive framework.
-//!
-//! Principles: Command-Query Separation, Single Responsibility, Encapsulation,
-//! Component Isolation, Arrange-Act-Assert.
+use anyhow::Result;
+use serde::Serialize;
 
-pub mod accessibility;
+#[derive(Debug, Clone, Serialize)]
+pub struct Config { pub enabled: bool }
+impl Default for Config { fn default() -> Self { Self { enabled: true } } }
 
-pub use accessibility::*;
+pub struct accessibility { config: Config }
+impl accessibility {
+    pub fn new(config: Config) -> Self { Self { config } }
+    pub fn initialize(&mut self) -> Result<()> { Ok(()) }
+}

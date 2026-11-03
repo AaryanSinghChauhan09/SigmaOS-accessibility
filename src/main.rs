@@ -1,12 +1,13 @@
-//! SigmaOS Accessibility Daemon entry point.
+use clap::Parser;
+use accessibility::accessibility;
 
-use std::process;
-use sigmaos_accessibility::accessibility::AccessibilityService;
+#[derive(Parser)]
+struct Cli;
 
-fn main() {
-    let service = AccessibilityService::new();
-    if let Err(e) = service.run() {
-        eprintln!("sigmaos-accessibility: fatal error: {}", e);
-        process::exit(1);
-    }
+fn main() -> anyhow::Result<()> {
+    let config = accessibility::Config::default();
+    let mut component = accessibility::new(config);
+    component.initialize()?;
+    println!("SigmaOS-accessibility ready");
+    Ok(())
 }
