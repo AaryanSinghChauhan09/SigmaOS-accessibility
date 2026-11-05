@@ -1,0 +1,16 @@
+[component]
+name = "SigmaOS-accessibility"
+tier = 3
+stability = "scaffold"
+language = "rust"
+description = "Assistive technology framework, screen reader daemon, magnification, and sticky keys"
+upstream = ["https://github.com/linuxmint/orca"]
+
+[contract]
+provides = ["screen-reader", "magnification-daemon", "assistive-input"]
+depends_on = []
+
+[maturity]
+status = "Scaffold"
+test_evidence = "Compiles and passes AAA unit tests"
+next_milestone = "Hardware and runtime integration"
