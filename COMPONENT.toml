@@ -3,12 +3,12 @@ name = "SigmaOS-accessibility"
 tier = 3
 stability = "scaffold"
 language = "rust"
-description = "Assistive technology framework, screen reader daemon, magnification, and sticky keys"
+description = "SigmaOS accessibility tools and screen reader support"
 upstream = ["https://github.com/linuxmint/orca"]
 
 [contract]
 provides = ["screen-reader", "magnification-daemon", "assistive-input"]
-depends_on = []
+depends_on = ["SigmaOS-system"]
 
 [maturity]
 status = "Scaffold"
